@@ -1,0 +1,27 @@
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  animation: scroll 25s linear infinite; /* slow infinite scroll */
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  width: 350px; /* you can adjust */
+  height: 300px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-60%); /* moves half (because we duplicated items) */
+  }
+}
