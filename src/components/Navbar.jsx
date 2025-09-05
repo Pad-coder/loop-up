@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, Heart } from "lucide-react";
-import { logout } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase.js";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,12 +11,14 @@ const Navbar = () => {
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  const [email,setEmail]=useState(1);
+ 
 
-  const dispatch = useDispatch();
-  const handleLogout = () => {
-    dispatch(logout());
-  }
+  // const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    await signOut(auth);
+  };
+  
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -91,7 +94,7 @@ const Navbar = () => {
             className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
             onClick={handleLogout}
           >
-           {email ? "Log out" : "Log in"}
+           Log out
           </Link>
         </div>
 
@@ -155,8 +158,9 @@ const Navbar = () => {
           <Link
             to="/login"
             className="block py-2 bg-teal-600 text-white text-center rounded-lg hover:bg-teal-700"
+            onClick={handleLogout}
           >
-            Login
+            Log out
           </Link>
         </div>
       )}
