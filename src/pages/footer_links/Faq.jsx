@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 const faqData = [
@@ -29,9 +29,9 @@ const faqData = [
 
 const FAQPage = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-    useDocumentTitle("LoopUp - FAQs");
+  useDocumentTitle("LoopUp - FAQs");
 
-  
+
   window.scrollTo(0, 0);
 
   return (
@@ -43,11 +43,10 @@ const FAQPage = () => {
           <button
             key={index}
             onClick={() => setActiveIndex(index)}
-            className={`block w-full text-left px-3 py-2 rounded-lg transition ${
-              activeIndex === index
+            className={`block w-full text-left px-3 py-2 rounded-lg transition ${activeIndex === index
                 ? "bg-yellow-400 text-gray-900 font-semibold"
                 : "hover:bg-blue-500"
-            }`}
+              }`}
           >
             {item.question}
           </button>

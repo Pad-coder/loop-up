@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../firebase/firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
@@ -43,15 +43,15 @@ function PreviewPage() {
         createdAt: serverTimestamp(),
       });
       // Redirect with state
-     toast.success("Product added successfully",{
-       position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "colored",
-     })
+      toast.success("Product added successfully", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      })
       navigate("/submitted", {
         state: { title, description, category, location: loc, imageUrl: downloadURL },
       }); // redirect after success
@@ -59,8 +59,8 @@ function PreviewPage() {
       console.error("Error uploading:", err);
     }
     finally {
-    setLoading(false); // ✅ Stop loading in both success/failure
-  }
+      setLoading(false); // ✅ Stop loading in both success/failure
+    }
   };
 
 
@@ -83,7 +83,7 @@ function PreviewPage() {
 
           <button className="m-4  bg-teal-600 text-white font-semibold px-6 py-3 rounded-lg shadow hover:bg-teal-700 transition"
             onClick={handleUpload}>
-          {loading ?   <span className="loading loading-spinner"></span> : "Confirm & Upload"}
+            {loading ? <span className="loading loading-spinner"></span> : "Confirm & Upload"}
           </button>
 
         </div>

@@ -70,7 +70,7 @@ checkProduct()
   const navigate = useNavigate()
 
   const handleInterested = async (productId) => {
-    const user = auth.currentUser;
+   
 
     auth.currentUser ? navigate("/interested", { state: { itemId: productId, giverId: productdata.items.find(item => item.id === productId)?.userId || '' } }) : navigate("/login");
   };

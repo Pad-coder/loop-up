@@ -8,7 +8,6 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle'
 function Home() {
   useDocumentTitle("Home");
   return (<>
-  
     <HomeCarousel />
     <Hero />
     <RecentItems />

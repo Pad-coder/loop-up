@@ -43,7 +43,7 @@ function Login() {
     try {
       await applyPersistence();
       await createUserWithEmailAndPassword(auth, email, password);
-     navigate(`${location.pathname === "/login" ? "/" : location.pathname || "/"}`);
+      navigate(`${location.pathname === "/login" ? "/" : location.pathname || "/"}`);
 
     } catch (e) {
       switch (e.code) {
@@ -98,7 +98,7 @@ function Login() {
       await applyPersistence();
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-       navigate(`${location.pathname === "/login" ? "/" : location.pathname || "/"}`);
+      navigate(`${location.pathname === "/login" ? "/" : location.pathname || "/"}`);
 
 
     } catch (e) {

@@ -14,7 +14,7 @@ export const doCreateUserWithEmailAndPassword = async (email, password) => {
 };
 
 export const doSignInWithEmailAndPassword = async (email, password) => {
-  return  signInWithEmailAndPassword(auth, email, password);
+  return signInWithEmailAndPassword(auth, email, password);
 };
 
 export const doSignInWithGoogle = async () => {
@@ -37,8 +37,8 @@ export const doPasswordChange = (password) => {
 };
 
 export const doSendEmailVerification = () => {
-  
-  
+
+
   return sendEmailVerification(auth.currentUser, {
     url: `${window.location.origin}/home`,
   });

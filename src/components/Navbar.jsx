@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, ChevronDown, Heart } from "lucide-react";
+import { Menu, X, Heart } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
@@ -12,15 +12,12 @@ const Navbar = () => {
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  
   const { user } = useSelector((s) => s.auth);
-
-
 
   const handleLogout = async () => {
     await signOut(auth);
   };
-  
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -86,16 +83,16 @@ const Navbar = () => {
           </Link>
 
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn m-1"><CgProfile className="size-6" />{user ? user.displayName? user.displayName : "User" : "Login"}</div>
+            <div tabIndex={0} role="button" className="btn m-1"><CgProfile className="size-6" />{user ? user.displayName ? user.displayName : "User" : "Login"}</div>
             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 gap-1.5 p-2 shadow-sm">
               <li><Link to={`/profile`}><CgProfile className="size-4" />My Profile</Link></li>
               <li><Link to={'/myDonation'}>My Donation</Link></li>
-             {user? <li>
+              {user ? <li>
                 <Link to="/login" className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
                   onClick={handleLogout} > Log out </Link>
               </li>
                 : <li><Link to={'/login'} className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition">Login</Link></li>
-             }
+              }
             </ul>
           </div>
 
@@ -104,16 +101,16 @@ const Navbar = () => {
         {/* Mobile Menu Icon */}
         <div className="md:hidden flex items-center space-x-4">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn m-1"><CgProfile className="size-6" />{user ? user.displayName? user.displayName : "User" : "Login"}</div>
+            <div tabIndex={0} role="button" className="btn m-1"><CgProfile className="size-6" />{user ? user.displayName ? user.displayName : "User" : "Login"}</div>
             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 gap-1.5 p-2 shadow-sm">
               <li><Link to={`/profile`}><CgProfile className="size-4" />My Profile</Link></li>
-               <li><Link to={'/myDonation'}>My Donation</Link></li>
-             {user? <li>
+              <li><Link to={'/myDonation'}>My Donation</Link></li>
+              {user ? <li>
                 <Link to="/login" className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
                   onClick={handleLogout} > Log out </Link>
               </li>
                 : <li><Link to={'/login'} className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition">Login</Link></li>
-             }
+              }
             </ul>
           </div>
           <button onClick={() => setIsOpen(!isOpen)}>
@@ -169,7 +166,7 @@ const Navbar = () => {
           <Link to="/contact" className="block py-2 hover:text-teal-600">
             Contact
           </Link>
-          
+
         </div>
       )}
     </nav>

@@ -20,7 +20,7 @@ const Contact = () => {
     setLoading(true); // start loading
     try {
       const response = await axios.post(
-       import.meta.env.VITE_APP_EMAILAPI,
+        import.meta.env.VITE_APP_EMAILAPI,
         { name, email, message }
       );
 
@@ -83,9 +83,8 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className={`${
-                  loading ? "bg-gray-400" : "bg-teal-600 hover:bg-teal-600/75"
-                } text-white py-3 rounded-lg transition`}
+                className={`${loading ? "bg-gray-400" : "bg-teal-600 hover:bg-teal-600/75"
+                  } text-white py-3 rounded-lg transition`}
               >
                 {loading ? "Sending..." : "Send Message"}
               </button>

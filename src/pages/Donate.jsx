@@ -22,7 +22,7 @@ export default function DonatePage() {
     const file = e.target.files[0];
     if (file) {
       const previewUrl = URL.createObjectURL(file);
-      setProduct({ ...product,donername:user.displayName , file, preview: previewUrl });
+      setProduct({ ...product, donername: user.displayName, file, preview: previewUrl });
     }
   };
 

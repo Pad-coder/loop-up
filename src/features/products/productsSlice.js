@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { collection, query, orderBy, onSnapshot,getDocs } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebase"; // ✅ adjust path
 
 // 🔹 Real-time fetch products from Firestore
@@ -55,7 +55,7 @@ const productSlice = createSlice({
         );
       }
     },
-    
+
   },
   extraReducers: (builder) => {
     builder
