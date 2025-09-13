@@ -47,7 +47,7 @@ const productSlice = createSlice({
     },
     filterByCategory: (state, action) => {
       const category = action.payload;
-      if (category === "all") {
+      if (category === "All") {
         state.filteredItems = state.items;
       } else {
         state.filteredItems = state.items.filter(

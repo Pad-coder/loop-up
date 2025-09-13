@@ -13,7 +13,7 @@ import {formatDate} from "../hooks/useFormatedDate";
 
 const Products = () => {
   const [userRequestedProduct, setUserRequestedProduct] = useState([])
-  const categories = ["all", "Clothes", "Books", "Electronics", "Furniture", "Others"];
+  const categories = ["All", "Clothes", "Books", "Electronics", "Furniture", "Others"];
 
   const dispatch = useDispatch();
   const productdata = useSelector((state) => state.product);
@@ -209,7 +209,7 @@ checkProduct()
           <button
             key={cat}
             onClick={() => dispatch(filterByCategory(cat))}
-            className="px-4 py-2 w-20 lg:w-36 text-center text-[12px] h-10 rounded bg-gray-200 hover:bg-gray-300"
+            className=" w-11 lg:w-36 text-center text-[7px] lg:text-[14px] h-4 lg:h-10 rounded bg-gray-200 hover:bg-gray-300 poppins-regular"
           >
             {cat}
           </button>
