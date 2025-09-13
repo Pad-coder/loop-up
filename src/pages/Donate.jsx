@@ -4,6 +4,7 @@ import { auth } from "../firebase/firebase";
 import { motion } from "framer-motion";
 import { Upload, MapPin, Gift } from "lucide-react";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import { toast } from "react-toastify";
 
 export default function DonatePage() {
   const [product, setProduct] = useState({
@@ -18,17 +19,30 @@ export default function DonatePage() {
 
   const navigate = useNavigate();
   const user = auth.currentUser;
-  const handleImageChange = (e) => {
+  
+  
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const previewUrl = URL.createObjectURL(file);
-      setProduct({ ...product, donername: user.displayName, file, preview: previewUrl });
+     
+      user ? setProduct({ ...product, donername: user.displayName, file, preview: previewUrl }) : navigate('/login')
+      !user && toast.warn("Please login to donate",{
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      })
+      
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/preview", { state: product }); // Pass file + preview to PreviewPage
+  user ? navigate("/preview", { state: product }) : navigate('/')
   };
 
   useDocumentTitle("Donate");
