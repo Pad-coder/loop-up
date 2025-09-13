@@ -85,10 +85,10 @@ const Navbar = () => {
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn m-1"><CgProfile className="size-6" />{user ? user.displayName ? user.displayName : "User" : "Login"}</div>
             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 gap-1.5 p-2 shadow-sm">
-              <li><Link to={`/profile`}><CgProfile className="size-4" />My Profile</Link></li>
+              <li><Link to={`/profile`}><CgProfile className="size-4" /> Profile</Link></li>
               <li><Link to={'/myDonation'}>My Donation</Link></li>
               <li>
-                <Link to={'/reqestedproducts'}>Requested items</Link>
+                <Link to={'/reqestedproducts'}>My Requests</Link>
               </li>
               {user ? <li>
                 <Link to="/login" className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
@@ -106,8 +106,9 @@ const Navbar = () => {
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn m-1"><CgProfile className="size-6" />{user ? user.displayName ? user.displayName : "User" : "Login"}</div>
             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 gap-1.5 p-2 shadow-sm">
-              <li><Link to={`/profile`}><CgProfile className="size-4" />My Profile</Link></li>
+              <li><Link to={`/profile`}><CgProfile className="size-4" />Profile</Link></li>
               <li><Link to={'/myDonation'}>My Donation</Link></li>
+              <li><Link to={'/reqestedproducts'}>My Requests</Link></li>
               {user ? <li>
                 <Link to="/login" className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
                   onClick={handleLogout} > Log out </Link>
