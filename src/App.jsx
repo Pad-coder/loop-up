@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import {login,logout,setInitialized} from './features/auth/authSlice'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {  Routes, Route } from 'react-router-dom';
 
 
 function App() {
@@ -41,10 +41,7 @@ function App() {
  const { user } = useSelector((s) => s.auth);
 
  
-  return (<>
-   
-    <Router>
-       
+  return (<>   
     <Navbar/>  
     <Routes>
       <Route path='/' element={ <Home/>  } />
@@ -62,10 +59,6 @@ function App() {
       </Routes>
      
         <Footer/> 
-    
-    </Router>
-    
-    
   </>
     
   )
