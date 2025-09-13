@@ -1,32 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MapPin, Clock, ArrowRight } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { formatDate } from '../hooks/useFormatedDate';
-import { auth } from '../firebase/firebase';
+import { auth, db } from '../firebase/firebase';
 import { fetchProducts, selectAllProducts } from '../features/products/productsSlice';
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { FaRegThumbsUp } from "react-icons/fa";
 
 function RecentItems() {
+  const [userRequestedProduct, setUserRequestedProduct] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const products = useSelector(selectAllProducts); 
+  const products = useSelector(selectAllProducts);
   const user = auth.currentUser;
 
   useEffect(() => {
-    dispatch(fetchProducts()); 
+    dispatch(fetchProducts());
   }, [dispatch]);
+
+  // ✅ Fetch user’s interested items
+  useEffect(() => {
+    const checkProduct = async () => {
+      if (!user?.uid) return;
+
+      try {
+        const q = query(
+          collection(db, "interestedForms"),
+          where("userId", "==", user.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        const userDetail = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUserRequestedProduct(userDetail);
+      } catch (error) {
+        console.error("Error checking product:", error);
+      }
+    };
+    checkProduct();
+  }, [user]);
 
   // Show only the 4 most recent
   const recentItems = products.slice(0, 4);
 
   const handleInterested = (productId) => {
-    navigate("/interested", { 
-      state: { 
-        itemId: productId, 
-        giverId: products.find(item => item.id === productId)?.userId || '' 
-      } 
-    });
+    auth.currentUser
+      ? navigate("/interested", {
+          state: {
+            itemId: productId,
+            giverId: products.find((item) => item.id === productId)?.userId || "",
+          },
+        })
+      : navigate("/login");
   };
 
   return (
@@ -44,7 +72,11 @@ function RecentItems() {
             recentItems.map((item) => (
               <div key={item.id} className="product-card rounded-lg overflow-hidden cursor-pointer">
                 <div className="relative">
-                  <img src={item.imageUrl} alt={item.title} className="w-full h-48 object-cover" />
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    className={`w-full h-48 object-contain ${item.sold ? 'grayscale' : ''}`}
+                  />
                   <div className="absolute top-2 right-2 bg-success text-inverse px-2 py-1 rounded text-sm">
                     FREE
                   </div>
@@ -67,12 +99,21 @@ function RecentItems() {
                       <span className="text-sm text-muted">
                         by {item.donername === user?.displayName ? "You" : item.donername}
                       </span>
-                      <button
-                        className="btn-outline-primary px-3 py-1 rounded text-sm"
-                        onClick={() => handleInterested(item.id)}
-                      >
-                        I'm Interested
-                      </button>
+
+                      {/* ✅ Button logic same as Products page */}
+                      {userRequestedProduct.find((p) => p.itemId === item.id) ? (
+                        <button className="px-3 py-1 rounded text-sm">
+                          {"Added to Interested "} <FaRegThumbsUp className="inline-block size-4" />
+                        </button>
+                      ) : (
+                        <button
+                          className={`${item.sold ? 'border border-red-500 p-1 rounded bg-gray-300 cursor-not-allowed' : 'btn-outline-primary px-3 py-1 rounded text-sm'} ${item.userId === user?.uid ? "hidden" : ""}`}
+                          disabled={item.sold}
+                          onClick={() => handleInterested(item.id)}
+                        >
+                          {item.sold ? "Item gone" : "I'm Interested"}
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

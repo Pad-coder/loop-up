@@ -23,7 +23,7 @@ const Products = () => {
  
 
 useEffect(()=>{
-const checkProduct = async (productId) => {
+const checkProduct = async () => {
   
     if (!user?.uid) {
       console.warn("No user logged in yet, skipping product check");
