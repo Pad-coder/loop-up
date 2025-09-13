@@ -50,6 +50,7 @@ function Footer() {
                   rel="noopener noreferrer"
                   target="_blank"
                   className="text-gray-900 transition hover:text-gray-900/75"
+                  
                 >
                   <span className="sr-only">Instagram</span>
                   <svg
@@ -103,19 +104,19 @@ function Footer() {
               <nav className="mt-8">
                 <ul className="space-y-4 text-sm">
                   <li>
-                    <Link className="text-white transition hover:text-white/75" to="/">
+                    <Link className="text-white transition hover:text-white/75" to="/" title="This feature will soon">
                       Company History
                     </Link>
                   </li>
 
                   <li>
-                    <Link className="text-white transition hover:text-white/75" to="/">
+                    <Link className="text-white transition hover:text-white/75" to="/" title="This feature will soon">
                       Meet the Team
                     </Link>
                   </li>
 
                   <li>
-                    <Link className="text-white transition hover:text-white/75" to="/">
+                    <Link className="text-white transition hover:text-white/75" to="/" title="This feature will soon">
                       Employee Handbook
                     </Link>
                   </li>
@@ -139,7 +140,7 @@ function Footer() {
                   </li>
 
                   <li>
-                    <Link className="text-white transition hover:text-white/75" to="/">
+                    <Link className="text-white transition hover:text-white/75" to="/" title="This feature will soon">
                       Support
                     </Link>
                   </li>
@@ -148,6 +149,7 @@ function Footer() {
                     <Link
                       className="flex group justify-center sm:justify-start gap-1.5"
                       to="/"
+                      title="This feature will soon"
                     >
                       <span className="text-white transition group-hover:text-white/75">
                         Live Chat
