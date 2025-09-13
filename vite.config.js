@@ -9,7 +9,15 @@ export default defineConfig({
     port: 3000, // optional, just for local dev
   },
   build: {
-    outDir: "dist", // Netlify needs this
+    
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+        },
+      },
+    },
   },
   // This is important when deploying to Netlify
   resolve: {
