@@ -12,6 +12,7 @@ import Products from './pages/Products'
 import Footer from './components/Footer'
 import FAQPage from './pages/footer_links/Faq'
 import InterestedForm from './pages/intrestedForm'
+import RequestedProducts from './pages/requestedItem'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { auth } from "./firebase/firebase";
@@ -56,6 +57,7 @@ function App() {
       <Route path='/profile' element={user ? <Profile /> : <Login />} />
       <Route path='/myDonation' element={user ? <MyDonation /> : <Login />} />
       <Route path='/interested' element={<InterestedForm />} />
+      <Route path='/reqestedproducts' element={user? <RequestedProducts/> : <Login/>}/>
       <Route path='/faq' element={<FAQPage />} />
       <Route path='*' element={<h1 className='text-3xl min-h-screen font-bold text-center mt-20'>404 - Page Not Found</h1>} />
     </Routes>

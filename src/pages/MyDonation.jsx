@@ -192,9 +192,7 @@ export default function MyDonationsPage() {
       <h1 className={`text-2xl font-bold mb-6 ${productRequests.length === 0 ? "hidden" : ""}`}>
         People Interested In Your Donations
       </h1>
-      {productRequests.length === 0 ? (
-        <p className="text-gray-600">No Items now</p>
-      ) : (
+     
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {productRequests?.map((request) => (
             <div
@@ -219,7 +217,7 @@ export default function MyDonationsPage() {
             </div>
           ))}
         </div>
-      )}
+      
     </div>
   );
 

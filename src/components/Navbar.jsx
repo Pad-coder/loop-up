@@ -87,6 +87,9 @@ const Navbar = () => {
             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 gap-1.5 p-2 shadow-sm">
               <li><Link to={`/profile`}><CgProfile className="size-4" />My Profile</Link></li>
               <li><Link to={'/myDonation'}>My Donation</Link></li>
+              <li>
+                <Link to={'/reqestedproducts'}>Requested items</Link>
+              </li>
               {user ? <li>
                 <Link to="/login" className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
                   onClick={handleLogout} > Log out </Link>
