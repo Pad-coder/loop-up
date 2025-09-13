@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import {Link} from 'react-router-dom'
-
+import { useEffect } from "react";
 
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full h-screen overflow-hidden poppins-regular">
       {/* Background Slideshow */}
       <div className="absolute inset-0">
         <div className="w-full h-full animate-slide">
@@ -49,17 +49,17 @@ export default function Hero() {
         <Link to="/donate">
           <motion.button
             whileHover={{ scale: 1.1 }}
-            className="px-6 py-3 bg-teal-500 text-white rounded-2xl shadow-lg hover:bg-teal-600 transition"
+            className="px-6 py-2 bg-teal-500 w-30 text-white text-xl rounded-2xl shadow-lg hover:bg-teal-600 transition"
           >
             Donate
           </motion.button>
         </Link>
-        <Link to="/buy">
+        <Link to="/freebie">
          <motion.button
             whileHover={{ scale: 1.1 }}
-            className="px-6 py-3 bg-white text-teal-600 rounded-2xl shadow-lg hover:bg-gray-200 transition"
+            className="px-6 py-2 bg-white w-30 text-teal-600 text-xl  rounded-2xl shadow-lg hover:bg-gray-200 transition"
           >
-            Buy
+            Freebie
           </motion.button>
         </Link>
          

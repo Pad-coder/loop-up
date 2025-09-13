@@ -1,57 +1,80 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { collection, query, orderBy, onSnapshot,getDocs } from "firebase/firestore";
+import { db } from "../../firebase/firebase"; // ✅ adjust path
 
-// Async fetch products
-export const fetchProducts = createAsyncThunk("product/fetchProducts", async () => {
-  // for now using fake API, you can replace with your backend later
-  const res = await axios.get("https://fakestoreapi.com/products");
+// 🔹 Real-time fetch products from Firestore
+export const fetchProducts = createAsyncThunk(
+  "product/fetchProducts",
+  async (_, { dispatch }) => {
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
 
-  
-  return res.data;
-});
+    return new Promise((resolve, reject) => {
+      try {
+        // Setup listener
+        onSnapshot(q, (snapshot) => {
+          const products = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: doc.data().createdAt?.toDate().getTime(), // convert to number
+          }));
+
+          // Dispatch into reducer
+          dispatch(setProducts(products));
+
+          resolve(products); // For first load
+        });
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+);
 
 const productSlice = createSlice({
   name: "product",
-  initialState: { items: [],
-    catagoryItems:[]
-    , loading: false,error: false },
-  reducers: {
-   addProduct: (state, action) => {
-    // push new product into items array
-    state.items.push(action.payload);
-
-    // also update categoryItems so UI refreshes immediately
-   
+  initialState: {
+    items: [],
+    filteredItems: [],
+    loading: false,
+    error: false,
   },
-     filterByCategory: (state, action) => {
+  reducers: {
+    setProducts: (state, action) => {
+      state.items = action.payload;
+      state.filteredItems = action.payload; // default show all
+      state.loading = false;
+      state.error = false;
+    },
+    filterByCategory: (state, action) => {
       const category = action.payload;
       if (category === "all") {
-        state.catagoryItems = state.items; // show all
+        state.filteredItems = state.items;
       } else {
-        state.catagoryItems = state.items.filter(
+        state.filteredItems = state.items.filter(
           (item) => item.category === category
         );
       }
     },
+    
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.items = action.payload;
-        state.loading = false;
-      })
       .addCase(fetchProducts.rejected, (state) => {
         state.loading = false;
         state.error = true;
-       
+      })
+      .addCase(fetchProducts.fulfilled, (state) => {
+        state.loading = false;
+        state.error = false;
       });
+
   },
-
-
 });
 
-export const { addProduct,filterByCategory } = productSlice.actions;
+export const selectAllProducts = (state) => state.product.items;
+export const selectCategoryProducts = (state) => state.product.filteredItems;
+export const { setProducts, filterByCategory } = productSlice.actions;
 export default productSlice.reducer;

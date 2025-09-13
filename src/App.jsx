@@ -1,14 +1,18 @@
 import React,{useEffect, useState} from 'react'
 import Login from './pages/Login'
-import SignupPage from './pages/SignupPage'
-import Navbar from './components/navbar'
+import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import DonatePage from './pages/Donate'
+import PreviewPage from './pages/PreviewPage'
+import SubmittedPage from './pages/SubmittedPage'
 import Contact from './pages/Contact'
+import Profile from './pages/Profile'
+import MyDonation from './pages/MyDonation'
 import Products from './pages/Products'
 import Footer from './components/Footer'
+import FAQPage from './pages/footer_links/Faq'
+import InterestedForm from './pages/intrestedForm'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from "react-router-dom";
 import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import {login,logout,setInitialized} from './features/auth/authSlice'
@@ -18,13 +22,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
 
  const dispatch = useDispatch();
+
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
-        console.log(currentUser);
         
         const { uid, email, displayName, photoURL } = currentUser;
         dispatch(login({ uid, email, displayName, photoURL }));
+
       } else {
         dispatch(logout());
       }
@@ -34,23 +39,26 @@ function App() {
   }, [dispatch]);
 
  const { user } = useSelector((s) => s.auth);
- console.log(user);
- 
- 
 
+ 
   return (<>
    
     <Router>
        
-   { user && <Navbar/>} 
-     
-      <Routes>
-      <Route path='/' element={user ? <Home/> : <Login /> } />
-      <Route path='/login' element={ !user && <Login/>} />
-      <Route path='/signup' element={!user && <SignupPage/> } />
-      <Route path='/donate' element={user ? <DonatePage/> : <Login/> } />
-      <Route path='/buy' element={user ? <Products/> : <Login />} />
-      <Route path='/contact' element={user ? <Contact/> : <Login />} />
+    <Navbar/>  
+    <Routes>
+      <Route path='/' element={ <Home/>  } />
+      <Route path='/login' element={!user && <Login /> } />
+      <Route path='/donate' element={<DonatePage/> } />
+      <Route path='/preview' element={user ? <PreviewPage/> : <Login />} />
+      <Route path='/submitted' element={user ? <SubmittedPage/> : <Login />} />
+      <Route path='/freebie' element={ <Products/> } />
+      <Route path='/contact' element={<Contact/>} />
+      <Route path='/profile' element={user ? <Profile/> : <Login />} />
+      <Route path='/myDonation' element={user ? <MyDonation/> : <Login />} />
+      <Route path='/interested' element={ <InterestedForm/> } />
+      <Route path='/faq' element={ <FAQPage/> } />
+      <Route path='*' element={ <h1 className='text-3xl min-h-screen font-bold text-center mt-20'>404 - Page Not Found</h1> } />
       </Routes>
      
         <Footer/> 

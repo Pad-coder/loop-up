@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, ChevronDown, Heart } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase.js";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,9 +12,10 @@ const Navbar = () => {
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
- 
+  
+  const { user } = useSelector((s) => s.auth);
 
-  // const dispatch = useDispatch();
+
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -36,9 +38,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`w-full fixed top-0 bg-white/90 backdrop-blur-md shadow-md z-50 transition-transform duration-500 ${
-        visible ? "translate-y-0" : "-translate-y-full"
-      }`}
+      className={`w-full fixed top-0 poppins-regular bg-white/90 backdrop-blur-md shadow-md z-50 transition-transform duration-500 ${visible ? "translate-y-0" : "-translate-y-full"
+        }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         {/* Left Logo */}
@@ -51,55 +52,70 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <div className="hidden md:flex space-x-8 text-sm font-medium items-center">
-          <Link to="/" className="hover:text-teal-600 transition">
+          <Link to={`/`} className="hover:text-teal-600 transition">
             Home
           </Link>
-          <Link to="/buy" className="hover:text-teal-600 transition">
-            Buy
+          <Link to="/freebie" className="hover:text-teal-600 transition">
+            Freebie
           </Link>
           <Link to="/donate" className="hover:text-teal-600 transition">
             Donate
           </Link>
           {/* Category with Dropdown */}
-          <div className="relative group cursor-pointer">
-            <div className="flex items-center gap-1 hover:text-teal-600 transition">
-              <span>Products</span>
-              <ChevronDown size={16} />
-            </div>
-            <div className="absolute top-6 left-0 w-44 bg-white shadow-lg rounded-lg p-2 hidden group-hover:block">
-              <Link to="/category/electronics" className="block px-3 py-2 rounded hover:bg-gray-100">
+          {/* <details className="dropdown" >
+            <summary className="btn border-0 hover:bg-inherit p-0 text-black font-light hover:text-teal-600 transition">Catagory</summary>
+            <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+              <li><Link to="/category/electronics" className="block hover:text-teal-600">
                 Electronics
-              </Link>
-              <Link to="/category/furniture" className="block px-3 py-2 rounded hover:bg-gray-100">
+              </Link></li>
+              <li> <Link to="/category/furniture" className="block hover:text-teal-600">
                 Furniture
-              </Link>
-              <Link to="/category/fashion" className="block px-3 py-2 rounded hover:bg-gray-100">
-                Fashion
-              </Link>
-              <Link to="/category/clothes" className="block px-3 py-2 rounded hover:bg-gray-100">
+              </Link></li>
+              <li><Link to="/category/clothes" className="block hover:text-teal-600">
                 Clothes
-              </Link>
-              <Link to="/category/babies" className="block px-3 py-2 rounded hover:bg-gray-100">
-                Childrens
-              </Link>
-            </div>
-          </div>
+              </Link></li>
+              <li>
+                <Link to="/category/home_appliances" className="block hover:text-teal-600">Home Appliances</Link>
+              </li>
+            </ul>
+          </details> */}
 
-          
+
           <Link to="/contact" className="hover:text-teal-600 transition">
             Contact
           </Link>
-          <Link
-            to="/login"
-            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
-            onClick={handleLogout}
-          >
-           Log out
-          </Link>
+
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn m-1"><CgProfile className="size-6" />{user ? user.displayName? user.displayName : "User" : "Login"}</div>
+            <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 gap-1.5 p-2 shadow-sm">
+              <li><Link to={`/profile`}><CgProfile className="size-4" />My Profile</Link></li>
+              <li><Link to={'/myDonation'}>My Donation</Link></li>
+             {user? <li>
+                <Link to="/login" className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
+                  onClick={handleLogout} > Log out </Link>
+              </li>
+                : <li><Link to={'/login'} className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition">Login</Link></li>
+             }
+            </ul>
+          </div>
+
         </div>
 
         {/* Mobile Menu Icon */}
-        <div className="md:hidden">
+        <div className="md:hidden flex items-center space-x-4">
+          <div className="dropdown">
+            <div tabIndex={0} role="button" className="btn m-1"><CgProfile className="size-6" />{user ? user.displayName? user.displayName : "User" : "Login"}</div>
+            <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 gap-1.5 p-2 shadow-sm">
+              <li><Link to={`/profile`}><CgProfile className="size-4" />My Profile</Link></li>
+               <li><Link to={'/myDonation'}>My Donation</Link></li>
+             {user? <li>
+                <Link to="/login" className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
+                  onClick={handleLogout} > Log out </Link>
+              </li>
+                : <li><Link to={'/login'} className="px-2 py-2  bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition">Login</Link></li>
+             }
+            </ul>
+          </div>
           <button onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
@@ -109,22 +125,22 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden px-6 pb-6 space-y-2 text-gray-700 font-medium bg-white shadow-md">
-          <Link to="/" className="block py-2 hover:text-teal-600">
+          <Link to={`/`} className="block py-2 hover:text-teal-600 ">
             Home
           </Link>
-          <Link to="/buy" className="block py-2 hover:text-teal-600">
-            Buy
+          <Link to="/freebie" className="block py-2 hover:text-teal-600">
+            Freebie
           </Link>
-        <Link to="/donate" className="block py-2 hover:text-teal-600">
-            Sell
+          <Link to="/donate" className="block py-2 hover:text-teal-600">
+            Donate
           </Link>
           {/* Mobile Dropdown */}
-          <div>
+          {/* <div>
             <button
               onClick={() => setCategoryOpen(!categoryOpen)}
               className="w-full text-left py-2 flex items-center justify-between hover:text-teal-600"
             >
-              <span>Products</span>
+              <span>Catagory</span>
               <ChevronDown
                 size={16}
                 className={`${categoryOpen ? "rotate-180" : ""} transition`}
@@ -138,30 +154,22 @@ const Navbar = () => {
                 <Link to="/category/furniture" className="block hover:text-teal-600">
                   Furniture
                 </Link>
-                <Link to="/category/fashion" className="block hover:text-teal-600">
-                  Fashion
-                </Link>
                 <Link to="/category/clothes" className="block hover:text-teal-600">
-                  Clothes
+                   Clothes
                 </Link>
-                <Link to="/category/babies" className="block hover:text-teal-600">
-                  Childrens
+                <Link to="/category/home_appliances" className="block hover:text-teal-600">
+                  Home Appliances
                 </Link>
+                
               </div>
             )}
-          </div>
+          </div> */}
 
-          
+
           <Link to="/contact" className="block py-2 hover:text-teal-600">
             Contact
           </Link>
-          <Link
-            to="/login"
-            className="block py-2 bg-teal-600 text-white text-center rounded-lg hover:bg-teal-700"
-            onClick={handleLogout}
-          >
-            Log out
-          </Link>
+          
         </div>
       )}
     </nav>

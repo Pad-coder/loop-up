@@ -1,17 +1,18 @@
 import React from 'react'
 import { Heart } from "lucide-react";
 import { Link } from 'react-router-dom';
+import { auth } from '../firebase/firebase';
 
 function Footer() {
   return (<>
-   <footer className=" bg-teal-600">
+   <footer className=" bg-teal-600 poppins-regular w-full">
   <div className="max-w-screen-xl px-4 pt-16 pb-6 mx-auto sm:px-6 lg:px-8 lg:pt-24">
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div>
         <div className="flex justify-center text-gray-900 sm:justify-start">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to={`/`} className="flex items-center space-x-2">
                     <Heart className="text-gray-900" size={28} />
-                    <h1 className="text-2xl md:text-3xl font-bold text-teal-700">
+                    <h1 className="text-2xl md:text-3xl font-bold text-teal-800">
                       Loop<span className="text-gray-800">Up</span>
                     </h1>
                   </Link>
@@ -132,7 +133,7 @@ function Footer() {
           <nav className="mt-8">
             <ul className="space-y-4 text-sm">
               <li>
-                <Link className="text-white transition hover:text-white/75" to="/">
+                <Link to={"/faq"} className="text-white transition hover:text-white/75" >
                   FAQs
                 </Link>
               </li>
@@ -190,7 +191,7 @@ function Footer() {
                 </svg>
 
                 <span className="text-white transition group-hover:text-white/75">
-                  john@doe.com
+                  contact@loopup.com
                 </span>
               </Link>
             </li>
@@ -242,7 +243,7 @@ function Footer() {
               </svg>
 
               <address className="-mt-0.5 not-italic text-white">
-                213 Lane, London, United Kingdom
+               517, Chennai - 600128, Tamil Nadu, India
               </address>
             </li>
           </ul>

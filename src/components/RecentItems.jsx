@@ -1,5 +1,6 @@
 import React from 'react'
-import { Search, Heart, Users, Gift, MapPin, Clock, Star, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { MapPin, Clock, ArrowRight } from 'lucide-react';
 
 function RecentItems() {
     const featuredItems = [
@@ -42,13 +43,14 @@ function RecentItems() {
   ];
   return (<>
   {/* Featured Items */}
-      <section className="py-16">
+      <section className="py-16 poppins-regular">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold text-body">Recently Available</h2>
-            <a href="#" className="link-primary flex items-center gap-2">
-              View All <ArrowRight size={16} />
-            </a>
+            
+            <Link to={"/freebie"} className="link-primary flex items-center gap-2">
+            View All <ArrowRight size={16} />
+            </Link>
           </div>
           
           <div className="grid  grid-cols-1 md:grid-cols-4 gap-6">
