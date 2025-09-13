@@ -3,7 +3,7 @@
   publish = "/build"
   base ="/"
 
-# Redirect all routes to index.html (important for React Router)
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
