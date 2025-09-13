@@ -33,7 +33,7 @@ const RequestedProducts = () => {
             if (productSnap.exists()) {
               return {
                 requestId: req.requestId,
-                purpose: req.purpose, // optional user note
+                purpose: req.purpose, 
                 ...productSnap.data(),
               };
             }
@@ -41,7 +41,7 @@ const RequestedProducts = () => {
           })
         );
 
-        setReqProducts(productsData.filter(Boolean)); // remove nulls
+        setReqProducts(productsData.filter(Boolean)); 
       } catch (error) {
         console.error("Error fetching requested products:", error);
       }
