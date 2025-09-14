@@ -18,8 +18,15 @@ import { useDocumentTitle } from "../hooks/useDocumentTitle";
 export default function MyDonationsPage() {
   const [products, setProducts] = useState([]);
   const [productRequests, setProductRequests] = useState([]);
-  const [activeTab, setActiveTab] = useState("donations"); // 👈 for mobile tab switch
+  const [activeTab, setActiveTab] = useState("donations");
 
+  // ✅ Modal state
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmData, setConfirmData] = useState({
+    action: null,
+    payload: null,
+    message: "",
+  });
 
   const user = auth.currentUser;
   useDocumentTitle("My Donations");
@@ -57,7 +64,6 @@ export default function MyDonationsPage() {
 
   // ✅ Delete product (and image from storage)
   const handleDelete = async (product) => {
-    if (!window.confirm("Are you sure you want to delete this item?")) return;
     try {
       await deleteDoc(doc(db, "posts", product.id));
 
@@ -84,41 +90,35 @@ export default function MyDonationsPage() {
     }
   };
 
-
-
-  const handleAccept = async (productId, itemId) => {
+  // ✅ Accept request
+  const handleAccept = async ({ productId, itemId }) => {
     try {
-      const docRef = doc(db, "interestedForms", productId); // 🔹 collection name + id
+      const docRef = doc(db, "interestedForms", productId);
       await updateDoc(docRef, {
         isAccepts: true,
-        isRejects: false, // optional: make sure reject is false
+        isRejects: false,
       });
 
       let totalItem = [];
-      productRequests.forEach(item => item.itemId === itemId && totalItem.push(item))
+      productRequests.forEach(
+        (item) => item.itemId === itemId && totalItem.push(item)
+      );
 
-      toast.success(`Accepted${totalItem.length > 1 ? ", Kindly reject other requests" : ""}`, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-      })
+      toast.success(`Accepted${totalItem.length > 1 ? ", Please reject other pending requests." : ""}`,
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        }
+      );
     } catch (err) {
-      toast.error("Something went Wrong", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-      })
+      toast.error("Something went Wrong", { theme: "colored" });
     }
-
-  }
+  };
 
   const handleRejects = async (productId) => {
     try {
@@ -126,29 +126,13 @@ export default function MyDonationsPage() {
       await updateDoc(docRef, {
         isAccepts: false,
         isRejects: true,
-
       });
-      toast.success("Rejected", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-      })
+      toast.success("Rejected", { theme: "colored" });
     } catch (error) {
-      toast.error("Something went Wrong", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-      })
+      toast.error("Something went Wrong", { theme: "colored" });
     }
-  }
+  };
+
   const handleUpdate = async (id) => {
     const newTitle = prompt("Enter new title:");
     if (!newTitle) return;
@@ -186,6 +170,36 @@ export default function MyDonationsPage() {
     const product = products?.find((p) => p.id === productId);
     return product?.imageUrl;
   };
+
+  // ✅ Confirmation Modal Component
+  const ConfirmModal = () =>
+    confirmOpen && (
+      <div className="fixed inset-0 bg-gray-400 opacity-95 flex items-center justify-center z-50">
+        <div className="bg-white p-6 rounded-xl shadow-lg w-80">
+          <h2 className="text-lg font-semibold text-center">
+            {confirmData.message}
+          </h2>
+
+          <div className="flex justify-center gap-4 mt-6">
+            <button
+              onClick={() => {
+                confirmData.action(confirmData.payload);
+                setConfirmOpen(false);
+              }}
+              className="px-4 w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => setConfirmOpen(false)}
+              className="px-4 w-full py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    );
 
   // ✅ My Donations Section
   const DonationsSection = () => (
@@ -240,7 +254,13 @@ export default function MyDonationsPage() {
                     Update
                   </button>
                   <button
-                    onClick={() => handleDelete(product)}
+                    onClick={() =>
+                      setConfirmData({
+                        action: handleDelete,
+                        payload: product,
+                        message: "Are you sure you want to delete this item?",
+                      }) || setConfirmOpen(true)
+                    }
                     className="px-2 py-1 w-full text-xs border text-black rounded hover:bg-red-400 hover:text-white"
                   >
                     Delete
@@ -257,7 +277,11 @@ export default function MyDonationsPage() {
   // ✅ Interested People Section
   const InterestedSection = () => (
     <div className="flex flex-col w-full mb-6">
-      <h1 className={`text-2xl font-bold mb-6 ${productRequests.length === 0 ? "hidden" : ""}`}>
+      <h1
+        className={`text-2xl font-bold mb-6 ${
+          productRequests.length === 0 ? "hidden" : ""
+        }`}
+      >
         People Interested In Your Donations
       </h1>
 
@@ -274,48 +298,57 @@ export default function MyDonationsPage() {
                 </h2>
 
                 <p>Name: {request.name}</p>
-
-                <p> {request.email}</p>
+                <p>{request.email}</p>
                 <p className="">Message:</p>
-                <span className="italic text-blue-600">"{request.purpose || "No message"}"</span>
+                <span className="italic text-blue-600">
+                  "{request.purpose || "No message"}"
+                </span>
               </div>
               <img
                 src={getProductImage(request.itemId)}
                 alt=""
                 className="w-20 h-20 object-contain mx-auto"
               />
-
             </div>
             <div className="flex gap-2 mt-2">
-              {request.isAccepts ? <button
-                className="px-2 py-1 w-full text-xs text-gray-600 border rounded hover:bg-gray-200"
-
-              >
-                Accepted
-              </button> : <button
-                className="px-2 py-1 w-full text-xs text-gray-600 border rounded hover:bg-gray-200"
-                onClick={() => handleAccept(request.id, request.itemId)}
-              >
-                Accept
-              </button>}
-              {request.isRejects ? <button
-                className="px-2 py-1 w-full text-xs border text-black rounded hover:bg-red-400 hover:text-white"
-
-              >
-                Rejected
-              </button> :
+              {request.isAccepts ? (
+                <button className="px-2 py-1 w-full text-xs text-gray-600 border rounded hover:bg-gray-200">
+                  Accepted
+                </button>
+              ) : (
+                <button
+                  className="px-2 py-1 w-full text-xs text-gray-600 border rounded hover:bg-gray-200"
+                  onClick={() =>
+                    setConfirmData({
+                      action: handleAccept,
+                      payload: {
+                        productId: request.id,
+                        itemId: request.itemId,
+                        person: request.name,
+                      },
+                      message: `Are you sure you want to give this item to ${request.name}?`,
+                    }) || setConfirmOpen(true)
+                  }
+                >
+                  Accept
+                </button>
+              )}
+              {request.isRejects ? (
+                <button className="px-2 py-1 w-full text-xs border text-black rounded hover:bg-red-400 hover:text-white">
+                  Rejected
+                </button>
+              ) : (
                 <button
                   className="px-2 py-1 w-full text-xs border text-black rounded hover:bg-red-400 hover:text-white"
                   onClick={() => handleRejects(request.id)}
                 >
                   Reject
                 </button>
-              }
+              )}
             </div>
           </div>
         ))}
       </div>
-
     </div>
   );
 
@@ -324,19 +357,21 @@ export default function MyDonationsPage() {
       {/* ✅ Mobile Buttons */}
       <div className="flex md:hidden gap-2 mb-6">
         <button
-          className={`flex-1 py-2 rounded ${activeTab === "donations"
-            ? "bg-teal-600 text-white"
-            : "bg-gray-200 text-gray-700"
-            }`}
+          className={`flex-1 py-2 rounded ${
+            activeTab === "donations"
+              ? "bg-teal-600 text-white"
+              : "bg-gray-200 text-gray-700"
+          }`}
           onClick={() => setActiveTab("donations")}
         >
           My Donations {products.length}
         </button>
         <button
-          className={`flex-1 py-2 rounded ${activeTab === "interested"
-            ? "bg-teal-600 text-white"
-            : "bg-gray-200 text-gray-700"
-            } ${productRequests.length === 0 && "hidden"}`}
+          className={`flex-1 py-2 rounded ${
+            activeTab === "interested"
+              ? "bg-teal-600 text-white"
+              : "bg-gray-200 text-gray-700"
+          } ${productRequests.length === 0 && "hidden"}`}
           onClick={() => setActiveTab("interested")}
         >
           Interested People {productRequests.length}
@@ -353,6 +388,9 @@ export default function MyDonationsPage() {
       <div className="md:hidden">
         {activeTab === "donations" ? <DonationsSection /> : <InterestedSection />}
       </div>
+
+      {/* ✅ Modal */}
+      <ConfirmModal />
     </div>
   );
 }

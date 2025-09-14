@@ -96,10 +96,10 @@ const RequestedProducts = () => {
               )}
 
               {
-                product.isAccepts && <div className="flex gap-2 items-center mt-2"><BsFillBagCheckFill className="size-6 text-green-700 " /><span>Congratulations, {product.donername} accepted your request </span> </div>
+                product.isAccepts && <div className="flex gap-2 items-center mt-2"><BsFillBagCheckFill className="size-6 text-green-700 " /><span>We’re happy to inform you that {product.donername} accepted your request</span> </div>
               }
               {
-                product.isRejects && <div className="flex gap-2 items-center mt-2"><FaSadCry className="size-6 text-green-800 " /> Sorry to hear, Donner rejects your request </div>
+                product.isRejects && <div className="flex gap-2 items-center mt-2"><FaSadCry className="size-6 text-green-800 " /> We regret to inform you that Donner has declined your request.</div>
               }
               {product.sold &&  <p className="text-green-600 font-bold text-xs mt-1">✅ Sold</p>}
               <button
