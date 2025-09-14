@@ -162,7 +162,7 @@ checkProduct()
                       <span className="text-sm text-muted">by {item.donername === user?.displayName ? "You" : item.donername} </span>
                       {
                         userRequestedProduct.find(p => p.itemId === item.id) ? <button className={'px-3 py-1 rounded text-sm'} >
-                        { "Added to Interested "} <FaRegThumbsUp className="inline-block size-4" />
+                        { item.sold ? "Not Available" : "Added to Interested "} {item.sold ? "": <FaRegThumbsUp className="inline-block size-4" />}
                       </button> :
                          <button className={`${item.sold ? 'border border-red-500 p-1 rounded bg-gray-300 cursor-not-allowed' : 'btn-outline-primary px-3 py-1 rounded text-sm'} ${item.userId === user?.uid ? "hidden" : ""}`} disabled={item.sold}
                         onClick={() => { handleInterested(item.id) }}

@@ -16,6 +16,8 @@ const InterestedForm = () => {
         timestamp: serverTimestamp(),
         userId: auth.currentUser ? auth.currentUser.uid : null,
         giverId: location.state?.giverId || '',
+        isAccepts: false,
+        isRejects: false,
     });
 
     const [submitted, setSubmitted] = useState(false);

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
 import { collection, query, where, getDocs, deleteDoc, doc, getDoc } from "firebase/firestore";
-
+import { BsFillBagCheckFill } from "react-icons/bs";
+import { FaSadCry } from "react-icons/fa";
 const RequestedProducts = () => {
   const [reqProducts, setReqProducts] = useState([]);
   const currentUser = auth.currentUser;
 
 
-  
   useEffect(() => {
     const fetchRequestedProducts = async () => {
       if (!currentUser) return;
@@ -33,7 +33,9 @@ const RequestedProducts = () => {
             if (productSnap.exists()) {
               return {
                 requestId: req.requestId,
-                purpose: req.purpose, 
+                purpose: req.purpose,
+                isAccepts: req.isAccepts,
+                isRejects: req.isRejects,
                 ...productSnap.data(),
               };
             }
@@ -41,7 +43,7 @@ const RequestedProducts = () => {
           })
         );
 
-        setReqProducts(productsData.filter(Boolean)); 
+        setReqProducts(productsData.filter(Boolean));
       } catch (error) {
         console.error("Error fetching requested products:", error);
       }
@@ -66,7 +68,7 @@ const RequestedProducts = () => {
 
       {reqProducts.length === 0 ? (
         <div className="min-h-screen flex justify-center  ">
-            <h2 className="text-gray-600 text-2xl">No requested products found.</h2>
+          <h2 className="text-gray-600 text-2xl">No requested products found.</h2>
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -93,12 +95,24 @@ const RequestedProducts = () => {
                 </p>
               )}
 
+              {
+                product.isAccepts && <div className="flex gap-2 items-center mt-2"><BsFillBagCheckFill className="size-6 text-green-700 " /><span>Congratulations, {product.donername} accepted your request </span> </div>
+              }
+              {
+                product.isRejects && <div className="flex gap-2 items-center mt-2"><FaSadCry className="size-6 text-green-800 " /> Sorry to hear, Donner rejects your request </div>
+              }
+              {product.sold &&  <p className="text-green-600 font-bold text-xs mt-1">✅ Sold</p>}
               <button
                 onClick={() => handleUndoRequest(product.requestId)}
-                className="mt-3 bg-teal-600 hover:bg-teal-800 text-white px-4 py-2 rounded-lg"
+                className="mt-2 w-40  bg-teal-600 hover:bg-teal-800 text-white px-4 py-2 rounded-lg"
               >
-                Undo Request
+                {(product.isRejects === true && product.isAccepts === false) && "Revoke"}
+                {(product.isRejects === false && product.isAccepts === true) && "Revoke"}
+                {(product.isRejects === false && product.isAccepts === false) && "Cancel"}
+
               </button>
+
+
             </div>
           ))}
         </div>

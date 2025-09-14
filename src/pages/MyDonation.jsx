@@ -20,6 +20,7 @@ export default function MyDonationsPage() {
   const [productRequests, setProductRequests] = useState([]);
   const [activeTab, setActiveTab] = useState("donations"); // 👈 for mobile tab switch
 
+
   const user = auth.currentUser;
   useDocumentTitle("My Donations");
 
@@ -37,19 +38,21 @@ export default function MyDonationsPage() {
         id: doc.id,
         ...doc.data(),
       }));
-
-      const unsubscribeRequests = onSnapshot(qRequests, (snapshot) => {
-        const requests = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setProductRequests(requests);
-      });
-
       setProducts(items);
     });
 
-    return () => unsubscribe();
+    const unsubscribeRequests = onSnapshot(qRequests, (snapshot) => {
+      const requests = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProductRequests(requests);
+    });
+
+    return () => {
+      unsubscribe();
+      unsubscribeRequests();
+    };
   }, [user]);
 
   // ✅ Delete product (and image from storage)
@@ -81,6 +84,71 @@ export default function MyDonationsPage() {
     }
   };
 
+
+
+  const handleAccept = async (productId, itemId) => {
+    try {
+      const docRef = doc(db, "interestedForms", productId); // 🔹 collection name + id
+      await updateDoc(docRef, {
+        isAccepts: true,
+        isRejects: false, // optional: make sure reject is false
+      });
+
+      let totalItem = [];
+      productRequests.forEach(item => item.itemId === itemId && totalItem.push(item))
+
+      toast.success(`Accepted${totalItem.length > 1 ? ", Kindly reject other requests" : ""}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      })
+    } catch (err) {
+      toast.error("Something went Wrong", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      })
+    }
+
+  }
+
+  const handleRejects = async (productId) => {
+    try {
+      const docRef = doc(db, "interestedForms", productId);
+      await updateDoc(docRef, {
+        isAccepts: false,
+        isRejects: true,
+
+      });
+      toast.success("Rejected", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      })
+    } catch (error) {
+      toast.error("Something went Wrong", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      })
+    }
+  }
   const handleUpdate = async (id) => {
     const newTitle = prompt("Enter new title:");
     if (!newTitle) return;
@@ -130,7 +198,7 @@ export default function MyDonationsPage() {
           {products.map((product) => (
             <div
               key={product.id}
-              className="border rounded-lg shadow bg-white overflow-hidden"
+              className=" rounded-lg shadow card-bordered border-gray-300 bg-white overflow-hidden"
             >
               <img
                 src={product.imageUrl}
@@ -167,13 +235,13 @@ export default function MyDonationsPage() {
                 <div className="flex gap-2 mt-2">
                   <button
                     onClick={() => handleUpdate(product.id)}
-                    className="px-2 py-1 text-xs text-gray-600 border rounded hover:bg-gray-200"
+                    className="px-2 py-1 w-full text-xs text-gray-600 border rounded hover:bg-gray-200"
                   >
                     Update
                   </button>
                   <button
                     onClick={() => handleDelete(product)}
-                    className="px-2 py-1 text-xs border text-black rounded hover:bg-red-400 hover:text-white"
+                    className="px-2 py-1 w-full text-xs border text-black rounded hover:bg-red-400 hover:text-white"
                   >
                     Delete
                   </button>
@@ -192,32 +260,62 @@ export default function MyDonationsPage() {
       <h1 className={`text-2xl font-bold mb-6 ${productRequests.length === 0 ? "hidden" : ""}`}>
         People Interested In Your Donations
       </h1>
-     
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {productRequests?.map((request) => (
-            <div
-              key={request.id}
-              className="border rounded-lg shadow bg-white overflow-hidden"
-            >
-              <div className="p-3 flex flex-col-reverse md:flex-row gap-2">
-                <div className="text-xs">
-                  <h2 className="font-semibold">
-                    Product: {getProductTitle(request.itemId)}
-                  </h2>
-                  <p>Name: {request.name}</p>
-                  <p>Email: {request.email}</p>
-                  <p>Message: {request.purpose || "No message"}</p>
-                </div>
-                <img
-                  src={getProductImage(request.itemId)}
-                  alt=""
-                  className="w-20 h-20 object-contain mx-auto"
-                />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {productRequests?.map((request) => (
+          <div
+            key={request.id}
+            className="p-1 card card-bordered rounded-lg shadow bg-white overflow-hidden"
+          >
+            <div className="p-3 flex flex-col-reverse md:flex-row gap-2">
+              <div className=" flex flex-col">
+                <h2 className="font-semibold">
+                  {getProductTitle(request.itemId)}
+                </h2>
+
+                <p>Name: {request.name}</p>
+
+                <p> {request.email}</p>
+                <p className="">Message:</p>
+                <span className="italic text-blue-600">"{request.purpose || "No message"}"</span>
               </div>
+              <img
+                src={getProductImage(request.itemId)}
+                alt=""
+                className="w-20 h-20 object-contain mx-auto"
+              />
+
             </div>
-          ))}
-        </div>
-      
+            <div className="flex gap-2 mt-2">
+              {request.isAccepts ? <button
+                className="px-2 py-1 w-full text-xs text-gray-600 border rounded hover:bg-gray-200"
+
+              >
+                Accepted
+              </button> : <button
+                className="px-2 py-1 w-full text-xs text-gray-600 border rounded hover:bg-gray-200"
+                onClick={() => handleAccept(request.id, request.itemId)}
+              >
+                Accept
+              </button>}
+              {request.isRejects ? <button
+                className="px-2 py-1 w-full text-xs border text-black rounded hover:bg-red-400 hover:text-white"
+
+              >
+                Rejected
+              </button> :
+                <button
+                  className="px-2 py-1 w-full text-xs border text-black rounded hover:bg-red-400 hover:text-white"
+                  onClick={() => handleRejects(request.id)}
+                >
+                  Reject
+                </button>
+              }
+            </div>
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 
@@ -226,21 +324,19 @@ export default function MyDonationsPage() {
       {/* ✅ Mobile Buttons */}
       <div className="flex md:hidden gap-2 mb-6">
         <button
-          className={`flex-1 py-2 rounded ${
-            activeTab === "donations"
-              ? "bg-teal-600 text-white"
-              : "bg-gray-200 text-gray-700"
-          }`}
+          className={`flex-1 py-2 rounded ${activeTab === "donations"
+            ? "bg-teal-600 text-white"
+            : "bg-gray-200 text-gray-700"
+            }`}
           onClick={() => setActiveTab("donations")}
         >
           My Donations {products.length}
         </button>
         <button
-          className={`flex-1 py-2 rounded ${
-            activeTab === "interested"
-              ? "bg-teal-600 text-white"
-              : "bg-gray-200 text-gray-700"
-          } ${productRequests.length === 0 && "hidden"}`}
+          className={`flex-1 py-2 rounded ${activeTab === "interested"
+            ? "bg-teal-600 text-white"
+            : "bg-gray-200 text-gray-700"
+            } ${productRequests.length === 0 && "hidden"}`}
           onClick={() => setActiveTab("interested")}
         >
           Interested People {productRequests.length}
