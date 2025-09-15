@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
+import Header from './components/Header'
 import Login from './pages/Login'
-import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import DonatePage from './pages/Donate'
 import PreviewPage from './pages/PreviewPage'
@@ -19,6 +19,7 @@ import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { login, logout, setInitialized } from './features/auth/authSlice'
 import { Routes, Route } from 'react-router-dom';
+import { Section } from 'lucide-react'
 
 
 function App() {
@@ -44,9 +45,10 @@ function App() {
 
 
   return (<>
-    <Navbar />
+    <Header />
 
-    <Routes>
+<main>
+      <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/login' element={!user && <Login />} />
       <Route path='/donate' element={<DonatePage />} />
@@ -57,10 +59,11 @@ function App() {
       <Route path='/profile' element={user ? <Profile /> : <Login />} />
       <Route path='/myDonation' element={user ? <MyDonation /> : <Login />} />
       <Route path='/interested' element={<InterestedForm />} />
-      <Route path='/reqestedproducts' element={user? <RequestedProducts/> : <Login/>}/>
+      <Route path='/reqestedproducts' element={user ? <RequestedProducts /> : <Login />} />
       <Route path='/faq' element={<FAQPage />} />
-      <Route path='*' element={<h1 className='text-3xl min-h-screen font-bold text-center mt-20'>404 - Page Not Found</h1>} />
+      <Route path='*' element={<section id='error-page' className='min-h-screen flex justify-center items-center '><h1 className='text-3xl  font-bold text-center'>404 - Page Not Found</h1></section>} />
     </Routes>
+</main>
 
     <Footer />
   </>

@@ -31,7 +31,7 @@ const FAQPage = () => {
   window.scrollTo(0, 0);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50 mt-20">
+    <section className="min-h-screen flex flex-col md:flex-row bg-gray-50 mt-20">
       {/* Sidebar for Desktop & Horizontal Tabs for Mobile */}
       <div className="md:w-1/4 bg-teal-600 text-white p-4 md:p-6">
         <h2 className="text-lg md:text-xl font-bold mb-4 md:mb-6">FAQs</h2>
@@ -80,7 +80,7 @@ const FAQPage = () => {
           {faqData[activeIndex].answer}
         </p>
       </div>
-    </div>
+    </section>
   );
 };
 

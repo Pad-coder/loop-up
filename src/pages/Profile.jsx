@@ -60,7 +60,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gray-100 mt-20">
+    <section className="min-h-screen flex flex-col md:flex-row bg-gray-100 mt-20">
       {/* Sidebar */}
       <div className="lg:w-1/4 bg-white shadow-md flex flex-col justify-between p-6">
         <div className="mb-6 flex flex-col-reverse lg:block">
@@ -148,7 +148,7 @@ const ProfilePage = () => {
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

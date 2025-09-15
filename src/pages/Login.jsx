@@ -13,6 +13,7 @@ import {
 } from "firebase/auth";
 
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import { Section } from 'lucide-react';
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -111,7 +112,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+    <section className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-6 grid gap-4">
         {/* Email */}
         <input
@@ -193,7 +194,7 @@ function Login() {
           Login with Google
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 

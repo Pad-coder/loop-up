@@ -7,11 +7,11 @@ import Hero from '../components/Hero'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 function Home() {
   useDocumentTitle("Home");
-  return (<>
+  return (<section>
     <HomeCarousel />
     <Hero />
     <RecentItems />
-  </>
+  </section>
   )
 }
 

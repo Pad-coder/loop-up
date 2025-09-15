@@ -174,7 +174,7 @@ export default function MyDonationsPage() {
   // ✅ Confirmation Modal Component
   const ConfirmModal = () =>
     confirmOpen && (
-      <div className="fixed inset-0 bg-gray-400 opacity-95 flex items-center justify-center z-50">
+      <section className="fixed inset-0 bg-gray-400 opacity-95 flex items-center justify-center z-50">
         <div className="bg-white p-6 rounded-xl shadow-lg w-80">
           <h2 className="text-lg font-semibold text-center">
             {confirmData.message}
@@ -198,12 +198,12 @@ export default function MyDonationsPage() {
             </button>
           </div>
         </div>
-      </div>
+      </section>
     );
 
   // ✅ My Donations Section
   const DonationsSection = () => (
-    <div className="flex flex-col w-full mb-6">
+    <section className="flex flex-col w-full mb-6">
       <h1 className="text-2xl font-bold mb-6">My Donations</h1>
       {products.length === 0 ? (
         <p>No donations yet.</p>
@@ -271,12 +271,12 @@ export default function MyDonationsPage() {
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 
   // ✅ Interested People Section
   const InterestedSection = () => (
-    <div className="flex flex-col w-full mb-6">
+    <section className="flex flex-col w-full mb-6">
       <h1
         className={`text-2xl font-bold mb-6 ${
           productRequests.length === 0 ? "hidden" : ""
@@ -349,11 +349,11 @@ export default function MyDonationsPage() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 
   return (
-    <div className="p-4 mt-20">
+    <section className="p-4 mt-20">
       {/* ✅ Mobile Buttons */}
       <div className="flex md:hidden gap-2 mb-6">
         <button
@@ -391,6 +391,6 @@ export default function MyDonationsPage() {
 
       {/* ✅ Modal */}
       <ConfirmModal />
-    </div>
+    </section>
   );
 }

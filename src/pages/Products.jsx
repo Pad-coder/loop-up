@@ -84,7 +84,7 @@ const Products = () => {
     productdata.items.length === 0 ? productdata.loading ? "loading" : productdata.error ? "error" : "items" : "items"
     ) {
       case "loading":
-        return <div className="flex gap-10">
+        return <section id="skeleton-section" className="flex gap-10">
           <div className="flex w-52 flex-col gap-4">
             <div className="skeleton h-32 w-full bg-gray-400"></div>
             <div className="skeleton h-4 w-28 bg-gray-500"></div>
@@ -120,10 +120,10 @@ const Products = () => {
             <div className="skeleton h-4 w-full bg-gray-500"></div>
           </div>
 
-        </div>
+        </section>
       case "items":
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 poppins-regular">
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 poppins-regular">
             {
               productdata.filteredItems.length === 0 ?
                 <div className="text-center ">
@@ -177,10 +177,10 @@ const Products = () => {
                   </div>
                 ))
             }
-          </div>
+          </section>
         );
       case "error":
-        return <div className="flex items-center justify-center h-screen bg-gray-100">
+        return <section className="flex items-center justify-center h-screen bg-gray-100">
           <div className="text-center p-8 bg-white shadow-lg rounded-2xl">
             <h1 className="text-9xl font-extrabold text-red-500">404</h1>
             <p className="text-2xl font-semibold mt-4 text-gray-700">Page Not Found</p>
@@ -194,7 +194,7 @@ const Products = () => {
               Go Back Home
             </button>
           </div>
-        </div>
+        </section>
 
       default:
         return <p>Unknown status.</p>;
@@ -202,7 +202,7 @@ const Products = () => {
   };
 
   return (
-    <div className="p-10 max-w-7xl mx-auto mt-20">
+    <section className="p-10 max-w-7xl mx-auto mt-20">
       {/* Category Filter */}
       <div className="flex justify-end gap-2 mb-4 overflow-hidden">
         {categories.map((cat) => (
@@ -217,7 +217,7 @@ const Products = () => {
       </div>
 
       {renderMessage()}
-    </div>
+    </section>
   );
 };
 

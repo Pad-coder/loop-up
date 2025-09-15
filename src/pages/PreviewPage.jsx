@@ -66,7 +66,7 @@ function PreviewPage() {
 
 
   return (<>
-    <div className="p-6 border-t-2 border-gray-600  rounded-lg shadow mt-19">
+    <section className="p-6 border-t-2 border-gray-600  rounded-lg shadow mt-19">
       <h3 className="font-bold text-xl mb-2">Preview of your donation:</h3>
       <div className="rounded-lg overflow-hidden  shadow bg-white">
         <img
@@ -88,7 +88,7 @@ function PreviewPage() {
 
         </div>
       </div>
-    </div>
+    </section>
   </>
   )
 }

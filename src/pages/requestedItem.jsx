@@ -63,7 +63,7 @@ const RequestedProducts = () => {
   };
 
   return (
-    <div className="p-6 mt-20">
+    <section className="p-6 mt-20">
       {reqProducts.length !== 0 && <h2 className="text-2xl font-bold mb-4">Your Requested Products</h2>}
 
       {reqProducts.length === 0 ? (
@@ -117,7 +117,7 @@ const RequestedProducts = () => {
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

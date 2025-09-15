@@ -42,7 +42,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 relative top-15 lg:top-0 flex items-center justify-center p-6 ">
+    <section className="min-h-screen bg-gray-100 relative top-15 lg:top-0 flex items-center justify-center p-6 ">
       <div className="bg-white shadow-lg rounded-2xl max-w-4xl w-full p-8">
         {/* Heading */}
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
@@ -126,7 +126,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

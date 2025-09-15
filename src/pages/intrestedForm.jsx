@@ -54,7 +54,7 @@ const InterestedForm = () => {
     };
 
     return (
-        <div style={{ maxWidth: 400, margin: '0 auto' }} className='poppins-regular p-6 bg-white shadow-md rounded-lg mt-20'>
+        <section style={{ maxWidth: 400, margin: '0 auto' }} className='poppins-regular p-6 bg-white shadow-md rounded-lg mt-20'>
             <h2>Interested Form</h2>
 
             <form onSubmit={handleSubmit} className='poppins-regular  p-6 bg-white shadow-md rounded-lg mt-20'>
@@ -100,7 +100,7 @@ const InterestedForm = () => {
                 </button>
             </form>
 
-        </div>
+        </section>
     );
 };
 

@@ -48,7 +48,7 @@ export default function DonatePage() {
   useDocumentTitle("Donate");
 
   return (
-    <div className="min-h-screen mt-15 bg-gray-50 poppins-regular">
+    <section className="min-h-screen mt-15 bg-gray-50 poppins-regular">
       {/* Hero Section */}
       <section className="relative bg-teal-600 text-white py-16">
         <div className="container mx-auto px-6 text-center">
@@ -175,6 +175,6 @@ export default function DonatePage() {
           </form>
         </div>
       </section>
-    </div>
+    </section>
   );
 }

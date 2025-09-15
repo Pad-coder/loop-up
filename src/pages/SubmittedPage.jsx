@@ -9,7 +9,7 @@ function SubmittedPage() {
   const product = location.state || {};
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6 poppins-regular">
+    <section className="min-h-screen flex items-center justify-center bg-gray-50 p-6 poppins-regular">
       <div className="bg-white shadow-lg rounded-2xl p-8 max-w-md text-center">
         <h2 className="text-2xl font-bold text-teal-600 mb-4">
           Item Submitted Successfully!
@@ -33,7 +33,7 @@ function SubmittedPage() {
           View All Products
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 
