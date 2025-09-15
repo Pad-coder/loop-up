@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+
 import Header from './components/Header'
 import Login from './pages/Login'
 import Home from './pages/Home'
@@ -13,13 +16,14 @@ import Footer from './components/Footer'
 import FAQPage from './pages/footer_links/Faq'
 import InterestedForm from './pages/intrestedForm'
 import RequestedProducts from './pages/requestedItem'
+import Error from './pages/Error'
 
-import { useDispatch, useSelector } from 'react-redux'
+
 import { auth } from "./firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { login, logout, setInitialized } from './features/auth/authSlice'
-import { Routes, Route } from 'react-router-dom';
-import { Section } from 'lucide-react'
+
+
 
 
 function App() {
@@ -61,7 +65,7 @@ function App() {
       <Route path='/interested' element={<InterestedForm />} />
       <Route path='/reqestedproducts' element={user ? <RequestedProducts /> : <Login />} />
       <Route path='/faq' element={<FAQPage />} />
-      <Route path='*' element={<section id='error-page' className='min-h-screen flex justify-center items-center '><h1 className='text-3xl  font-bold text-center'>404 - Page Not Found</h1></section>} />
+      <Route path='*' element={<Error />} />
     </Routes>
 </main>
 
