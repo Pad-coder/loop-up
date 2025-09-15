@@ -101,19 +101,16 @@ function RecentItems() {
                       </span>
 
                       {/* ✅ Button logic same as Products page */}
-                      {userRequestedProduct.find((p) => p.itemId === item.id) ? (
-                        <button className="px-3 py-1 rounded text-sm">
-                          {"Added to Interested "} <FaRegThumbsUp className="inline-block size-4" />
-                        </button>
-                      ) : (
-                        <button
-                          className={`${item.sold ? 'border border-red-500 p-1 rounded bg-gray-300 cursor-not-allowed' : 'btn-outline-primary px-3 py-1 rounded text-sm'} ${item.userId === user?.uid ? "hidden" : ""}`}
-                          disabled={item.sold}
-                          onClick={() => handleInterested(item.id)}
-                        >
-                          {item.sold ? "Item gone" : "I'm Interested"}
-                        </button>
-                      )}
+                      {
+                            userRequestedProduct.find(p => p.itemId === item.id) ? <button className={'px-3 py-1 rounded text-sm'} >
+                              {item.sold ? "Not Available" : "Added to Interested "} {item.sold ? "" : <FaRegThumbsUp className="inline-block size-4" />}
+                            </button> :
+                              <button className={`${item.sold ? 'border border-red-500 p-1 rounded bg-gray-300 cursor-not-allowed' : 'text-teal-900 hover:bg-teal-600 border-1 border-teal-400 hover:text-white px-3 py-1 rounded '} ${item.userId === user?.uid ? "hidden" : ""}`} disabled={item.sold}
+                                onClick={() => { handleInterested(item.id) }}
+                              >
+                                {item.sold ? "Item gone" : "I'm Interested"}
+                              </button>
+                          }
                     </div>
                   </div>
                 </div>
