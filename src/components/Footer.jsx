@@ -276,7 +276,7 @@ function Footer() {
             </p>
 
             <p className="mt-4 text-sm text-gray-900 sm:order-first sm:mt-0">
-              &copy; 2022 Loop Up
+              &copy; {new Date().getFullYear()} Loop Up
             </p>
           </div>
         </div>

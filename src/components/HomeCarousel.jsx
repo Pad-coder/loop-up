@@ -33,7 +33,7 @@ export default function Carousel() {
   };
 
   return (
-    <section className="relative hidden lg:block w-full h-[200px] lg:h-[400px] top-18 lg:top-20 overflow-hidden">
+    <section className="relative hidden lg:block w-full h-auto lg:h-[400px] top-18 lg:top-20 overflow-hidden">
 
       <div
         className="flex transition-transform duration-1000 ease-in-out"
