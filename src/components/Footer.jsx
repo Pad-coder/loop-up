@@ -193,7 +193,7 @@ function Footer() {
                     </svg>
 
                     <span className="text-white transition group-hover:text-white/75">
-                      contact@loopup.com
+                     support@loopup.com
                     </span>
                   </Link>
                 </li>
@@ -218,7 +218,7 @@ function Footer() {
                     </svg>
 
                     <span className="text-white transition group-hover:text-white/75">
-                      0123456789
+                     +91 98765 43210
                     </span>
                   </Link>
                 </li>
@@ -245,7 +245,7 @@ function Footer() {
                   </svg>
 
                   <address className="-mt-0.5 not-italic text-white">
-                    517, Chennai - 600128, Tamil Nadu, India
+                    417, Chennai - 600128, Tamil Nadu, India 
                   </address>
                 </li>
               </ul>

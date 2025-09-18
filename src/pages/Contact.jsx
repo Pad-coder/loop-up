@@ -107,7 +107,7 @@ const Contact = () => {
                 <IoIosPin className="text-gray-600 size-6" />
                 <h3 className="font-semibold text-lg ml-1">Address</h3>
               </div>
-              <p>417, Chennai, India</p>
+              <p> 417, Chennai - 600128, Tamil Nadu, India </p>
             </div>
             <div>
               <div className="flex items-center gap-1">
