@@ -123,7 +123,7 @@ const Products = () => {
         </section>
       case "items":
         return (
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 poppins-regular">
+          <section className={productdata.filteredItems.length === 0 ?"grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 poppins-regular":"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 poppins-regular"}>
             {
               productdata.filteredItems.length === 0 ?
                 <div className="text-center md:h-screen md:flex justify-center items-center">
