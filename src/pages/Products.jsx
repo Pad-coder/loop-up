@@ -126,7 +126,7 @@ const Products = () => {
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 poppins-regular">
             {
               productdata.filteredItems.length === 0 ?
-                <div className="text-center ">
+                <div className="text-center md:h-screen md:flex justify-center items-center">
                   <p className="text-center text-gray-500 col-span-full py-10">
                     No items found in this category.
                   </p>
