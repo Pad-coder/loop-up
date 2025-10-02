@@ -206,7 +206,9 @@ export default function MyDonationsPage() {
     <section className="flex flex-col w-full mb-6">
       <h1 className="text-2xl font-bold mb-6">My Donations</h1>
       {products.length === 0 ? (
-        <p>No donations yet.</p>
+        <div className="h-screen flex justify-center items-center">
+          <p>Ready to make a difference? Add your donated items to display them here.</p>
+        </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.map((product) => (
