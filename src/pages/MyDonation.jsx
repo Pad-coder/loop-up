@@ -381,7 +381,7 @@ export default function MyDonationsPage() {
       </div>
 
       {/* ✅ Desktop → Two Column Grid */}
-      <div className={ products.length>= 0 ?"hidden md:grid grid-cols-2 gap-6": "hidden md:grid grid-cols-1 gap-6" }>
+      <div className={ products.length> 0 ?"hidden md:grid grid-cols-2 gap-6": "hidden md:grid grid-cols-1 gap-6" }>
         <DonationsSection />
         <InterestedSection />
       </div>
